@@ -11,7 +11,7 @@ User._meta.get_field('username')._unique = True
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ('id', 'username', 'email', 'name', 'city', 'state', 'zip')
 
 
 class RegisterSerializer(serializers.ModelSerializer):

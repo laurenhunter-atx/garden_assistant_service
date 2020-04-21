@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from knox.models import AuthToken
 from knox.auth import TokenAuthentication
+from rest_framework import status
 
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
 
@@ -13,8 +14,6 @@ class UserAPIView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
     def get_object(self):
-        print(self.request)
-        print(self.request.user)
         return self.request.user
 
 
@@ -27,8 +26,8 @@ class RegisterAPIView(generics.GenericAPIView):
         user = serializer.save()
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
-            "token": AuthToken.objects.create(user)[1]
-        })
+            "token": AuthToken.objects.create(user)[1],
+        }, status.HTTP_201_CREATED)
 
 
 class LoginAPIView(generics.GenericAPIView):
